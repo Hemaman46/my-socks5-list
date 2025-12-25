@@ -1,1 +1,176 @@
-<!DOCTYPE html><html><head><meta charset="UTF-8"><title>SOCKS5</title><style>body{background:#000;color:#0f0;font-family:monospace;margin:0;padding:0;white-space:pre;}</style></head><body id="content"></body><script>fetch('https://raw.githubusercontent.com/Hemaman46/my-socks5-list/main/proxies.txt').then(r=>r.text()).then(t=>document.getElementById('content').textContent=t.trim());</script></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOCKS5 Proxy List - Live Proxies</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+                <h1>Live SOCKS5 Proxy List</h1>
+            </div>
+            <p class="subtitle">Free working proxies from <a href="https://github.com/jetkai/proxy-list" target="_blank">jetkai/proxy-list</a></p>
+            <div class="github-badge">
+                <i class="fab fa-github"></i>
+                <span>GitHub Hosted</span>
+            </div>
+        </header>
+
+        <!-- Stats Bar -->
+        <div class="stats-bar">
+            <div class="stat">
+                <i class="fas fa-server"></i>
+                <div>
+                    <span class="stat-number" id="totalProxies">0</span>
+                    <span class="stat-label">Total Proxies</span>
+                </div>
+            </div>
+            <div class="stat">
+                <i class="fas fa-sync-alt"></i>
+                <div>
+                    <span class="stat-number" id="updateTime">Now</span>
+                    <span class="stat-label">Last Update</span>
+                </div>
+            </div>
+            <div class="stat">
+                <i class="fas fa-filter"></i>
+                <div>
+                    <span class="stat-number" id="filteredProxies">0</span>
+                    <span class="stat-label">Displayed</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Control Panel -->
+        <div class="control-panel">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="proxySearch" placeholder="Search proxy (e.g., 192.168 or :8080)">
+            </div>
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="copyAllProxies()">
+                    <i class="fas fa-copy"></i> Copy All
+                </button>
+                <button class="btn btn-secondary" onclick="downloadAsTxt()">
+                    <i class="fas fa-download"></i> Download TXT
+                </button>
+                <button class="btn btn-success" onclick="updateProxies()">
+                    <i class="fas fa-redo"></i> Refresh
+                </button>
+            </div>
+        </div>
+
+        <!-- Proxy List Container -->
+        <div class="proxy-container">
+            <div class="proxy-header">
+                <h2><i class="fas fa-list"></i> Active SOCKS5 Proxies</h2>
+                <div class="view-options">
+                    <button class="view-btn active" onclick="changeView('list')">
+                        <i class="fas fa-list-ul"></i> List
+                    </button>
+                    <button class="view-btn" onclick="changeView('grid')">
+                        <i class="fas fa-th"></i> Grid
+                    </button>
+                </div>
+            </div>
+            
+            <div class="proxy-list" id="proxyList">
+                <!-- Proxies will be loaded here by JavaScript -->
+            </div>
+
+            <div class="proxy-footer">
+                <div class="pagination">
+                    <button class="page-btn" onclick="prevPage()">
+                        <i class="fas fa-chevron-left"></i> Prev
+                    </button>
+                    <span class="page-info">
+                        Page <span id="currentPage">1</span> of <span id="totalPages">1</span>
+                    </span>
+                    <button class="page-btn" onclick="nextPage()">
+                        Next <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                <div class="page-size">
+                    <label for="pageSize">Show:</label>
+                    <select id="pageSize" onchange="changePageSize()">
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        <option value="200">200</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Instructions Section -->
+        <div class="instructions">
+            <h3><i class="fas fa-question-circle"></i> How to Use These Proxies</h3>
+            <div class="instruction-cards">
+                <div class="card">
+                    <div class="card-icon">
+                        <i class="fas fa-terminal"></i>
+                    </div>
+                    <h4>Command Line (curl)</h4>
+                    <code>curl --socks5-hostname 1.12.55.136:2080 https://httpbin.org/ip</code>
+                </div>
+                <div class="card">
+                    <div class="card-icon">
+                        <i class="fab fa-firefox-browser"></i>
+                    </div>
+                    <h4>Firefox/Chrome</h4>
+                    <p>Settings → Network Settings → Manual proxy configuration</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h4>Python Requests</h4>
+                    <code>proxies = {'http': 'socks5://5.182.209.247:52009'}</code>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>About This Project</h4>
+                    <p>This website displays the same content as the raw text file but with a better interface.</p>
+                    <p>Original data from: <a href="https://github.com/jetkai/proxy-list" target="_blank">jetkai/proxy-list</a></p>
+                </div>
+                <div class="footer-section">
+                    <h4>GitHub Repository</h4>
+                    <div class="github-link">
+                        <i class="fab fa-github"></i>
+                        <a href="#" id="repoLink">Your GitHub Repo</a>
+                    </div>
+                    <p>Clone and customize:</p>
+                    <code>git clone https://github.com/yourusername/proxy-list-website</code>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal Notice</h4>
+                    <p>For educational and testing purposes only.</p>
+                    <p>Always verify proxy legality in your region.</p>
+                    <p>© 2024 Proxy List Website</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Created with <i class="fas fa-heart"></i> for developers</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="proxies.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
