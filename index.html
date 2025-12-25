@@ -3,168 +3,157 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SOCKS5 Proxy List - Live Proxies</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    <title>SOCKS5 Proxy List</title>
+    <style>
+        /* Simple Black & White Style */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #000000;
+            color: #FFFFFF;
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+            line-height: 1.8;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Proxy List - Simple White Text */
+        .proxy-list {
+            background-color: #000000;
+            padding: 10px;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+        
+        .proxy-item {
+            color: #FFFFFF;
+            padding: 8px 0;
+            border-bottom: 1px solid #333333;
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+        }
+        
+        .proxy-item:last-child {
+            border-bottom: none;
+        }
+        
+        /* Simple Header */
+        .header {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 1px solid #333333;
+            margin-bottom: 20px;
+        }
+        
+        .header h1 {
+            color: #FFFFFF;
+            font-size: 24px;
+            font-weight: normal;
+        }
+        
+        .header p {
+            color: #CCCCCC;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        
+        /* Stats */
+        .stats {
+            color: #CCCCCC;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 30px;
+            border-top: 1px solid #333333;
+            color: #666666;
+            font-size: 12px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+                font-size: 14px;
+            }
+            
+            .proxy-item {
+                font-size: 14px;
+                padding: 6px 0;
+            }
+            
+            .header h1 {
+                font-size: 20px;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
-        <header class="header">
-            <div class="logo">
-                <i class="fas fa-shield-alt"></i>
-                <h1>SOCKS5 Proxy List</h1>
-            </div>
-            <p class="subtitle">Live working proxies for testing and development</p>
-            <div class="github-badge">
-                <i class="fab fa-github"></i>
-                <span>GitHub Hosted</span>
-            </div>
-        </header>
-
-        <!-- Stats Bar -->
-        <div class="stats-bar">
-            <div class="stat">
-                <i class="fas fa-server"></i>
-                <div>
-                    <span class="stat-number" id="totalProxies">0</span>
-                    <span class="stat-label">Total Proxies</span>
-                </div>
-            </div>
-            <div class="stat">
-                <i class="fas fa-sync-alt"></i>
-                <div>
-                    <span class="stat-number" id="updateTime">Now</span>
-                    <span class="stat-label">Last Update</span>
-                </div>
-            </div>
-            <div class="stat">
-                <i class="fas fa-filter"></i>
-                <div>
-                    <span class="stat-number" id="filteredProxies">0</span>
-                    <span class="stat-label">Displayed</span>
-                </div>
-            </div>
+        <div class="header">
+            <h1>SOCKS5 Proxy List</h1>
+            <p>Simple list - One proxy per line</p>
         </div>
-
-        <!-- Control Panel -->
-        <div class="control-panel">
-            <div class="search-box">
-                <i class="fas fa-search"></i>
-                <input type="text" id="proxySearch" placeholder="Search proxy (e.g., 185.244 or :45785)">
-            </div>
-            <div class="button-group">
-                <button class="btn btn-primary" onclick="copyAllProxies()">
-                    <i class="fas fa-copy"></i> Copy All
-                </button>
-                <button class="btn btn-secondary" onclick="downloadAsTxt()">
-                    <i class="fas fa-download"></i> Download TXT
-                </button>
-                <button class="btn btn-success" onclick="updateProxies()">
-                    <i class="fas fa-redo"></i> Refresh
-                </button>
-            </div>
+        
+        <div class="stats">
+            Total Proxies: <span id="proxyCount">10</span> | Updated: <span id="updateTime">Today</span>
         </div>
-
-        <!-- Proxy List -->
-        <div class="proxy-container">
-            <div class="proxy-header">
-                <h2><i class="fas fa-list"></i> Active SOCKS5 Proxies</h2>
-                <div class="view-options">
-                    <button class="view-btn active" onclick="changeView('grid')">
-                        <i class="fas fa-th"></i> Grid
-                    </button>
-                    <button class="view-btn" onclick="changeView('list')">
-                        <i class="fas fa-list-ul"></i> List
-                    </button>
-                </div>
-            </div>
-            
-            <div class="proxy-list" id="proxyList">
-                <!-- Proxies will load here -->
-                <div class="loading">Loading proxies...</div>
-            </div>
-
-            <div class="proxy-footer">
-                <div class="pagination">
-                    <button class="page-btn" onclick="prevPage()">
-                        <i class="fas fa-chevron-left"></i> Previous
-                    </button>
-                    <span class="page-info">
-                        Page <span id="currentPage">1</span> of <span id="totalPages">1</span>
-                    </span>
-                    <button class="page-btn" onclick="nextPage()">
-                        Next <i class="fas fa-chevron-right"></i>
-                    </button>
-                </div>
-                <div class="page-size">
-                    <label for="pageSize">Show:</label>
-                    <select id="pageSize" onchange="changePageSize()">
-                        <option value="10">10</option>
-                        <option value="20" selected>20</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                    </select>
-                </div>
-            </div>
+        
+        <div class="proxy-list" id="proxyList">
+            <!-- Proxies will be loaded here -->
         </div>
-
-        <!-- Instructions -->
-        <div class="instructions">
-            <h3><i class="fas fa-question-circle"></i> How to Use These Proxies</h3>
-            <div class="instruction-cards">
-                <div class="card">
-                    <div class="card-icon">
-                        <i class="fas fa-terminal"></i>
-                    </div>
-                    <h4>Command Line (curl)</h4>
-                    <code>curl --socks5-hostname 212.87.213.71:45785 https://httpbin.org/ip</code>
-                </div>
-                <div class="card">
-                    <div class="card-icon">
-                        <i class="fab fa-firefox-browser"></i>
-                    </div>
-                    <h4>Firefox/Chrome</h4>
-                    <p>Settings → Network Settings → Manual proxy configuration</p>
-                </div>
-                <div class="card">
-                    <div class="card-icon">
-                        <i class="fas fa-code"></i>
-                    </div>
-                    <h4>Python Requests</h4>
-                    <code>proxies = {'http': 'socks5://212.87.213.71:45785'}</code>
-                </div>
-            </div>
+        
+        <div class="footer">
+            <p>For educational purposes only | Format: IP:PORT</p>
         </div>
-
-        <!-- Footer -->
-        <footer class="footer">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4>About This Project</h4>
-                    <p>This website displays a live SOCKS5 proxy list with a modern interface.</p>
-                </div>
-                <div class="footer-section">
-                    <h4>GitHub Repository</h4>
-                    <div class="github-link">
-                        <i class="fab fa-github"></i>
-                        <a href="#" id="repoLink">View on GitHub</a>
-                    </div>
-                </div>
-                <div class="footer-section">
-                    <h4>Legal Notice</h4>
-                    <p>For educational and testing purposes only.</p>
-                    <p>Always verify proxy legality in your region.</p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>© 2024 SOCKS5 Proxy List | Created for developers</p>
-            </div>
-        </footer>
     </div>
 
-    <!-- JavaScript Files -->
-    <script src="proxies.js"></script>
-    <script src="script.js"></script>
+    <script>
+        // SOCKS5 Proxies List
+        const socks5Proxies = [
+            "212.87.213.71:45785",
+            "185.244.36.240:26359",
+            "185.244.36.245:46822",
+            "5.182.209.247:52009",
+            "5.182.209.246:25631",
+            "5.182.209.246:14120",
+            "5.182.209.247:45044",
+            "185.244.36.237:50655",
+            "185.244.36.245:18358",
+            "5.182.209.249:18873"
+        ];
+        
+        // Display proxies on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const proxyList = document.getElementById('proxyList');
+            const proxyCount = document.getElementById('proxyCount');
+            
+            // Update count
+            proxyCount.textContent = socks5Proxies.length;
+            
+            // Update time
+            const updateTime = document.getElementById('updateTime');
+            const now = new Date();
+            updateTime.textContent = now.toLocaleDateString();
+            
+            // Display all proxies
+            proxyList.innerHTML = socks5Proxies.join('\n');
+        });
+    </script>
 </body>
 </html>
