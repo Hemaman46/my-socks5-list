@@ -2,158 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SOCKS5 Proxy List</title>
+    <title>SOCKS5 Proxies</title>
     <style>
-        /* Simple Black & White Style */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
         body {
             background-color: #000000;
             color: #FFFFFF;
             font-family: 'Courier New', monospace;
             font-size: 16px;
             line-height: 1.8;
+            margin: 0;
             padding: 20px;
-            min-height: 100vh;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        /* Proxy List - Simple White Text */
-        .proxy-list {
-            background-color: #000000;
-            padding: 10px;
-            white-space: pre-wrap;
-            word-break: break-all;
-        }
-        
-        .proxy-item {
-            color: #FFFFFF;
-            padding: 8px 0;
-            border-bottom: 1px solid #333333;
-            font-family: 'Courier New', monospace;
-            font-size: 16px;
-        }
-        
-        .proxy-item:last-child {
-            border-bottom: none;
-        }
-        
-        /* Simple Header */
-        .header {
-            text-align: center;
-            padding: 20px 0;
-            border-bottom: 1px solid #333333;
-            margin-bottom: 20px;
-        }
-        
-        .header h1 {
-            color: #FFFFFF;
-            font-size: 24px;
-            font-weight: normal;
-        }
-        
-        .header p {
-            color: #CCCCCC;
-            font-size: 14px;
-            margin-top: 10px;
-        }
-        
-        /* Stats */
-        .stats {
-            color: #CCCCCC;
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 14px;
-        }
-        
-        /* Footer */
-        .footer {
-            text-align: center;
-            padding: 20px 0;
-            margin-top: 30px;
-            border-top: 1px solid #333333;
-            color: #666666;
-            font-size: 12px;
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            body {
-                padding: 10px;
-                font-size: 14px;
-            }
-            
-            .proxy-item {
-                font-size: 14px;
-                padding: 6px 0;
-            }
-            
-            .header h1 {
-                font-size: 20px;
-            }
+            white-space: pre;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>SOCKS5 Proxy List</h1>
-            <p>Simple list - One proxy per line</p>
-        </div>
-        
-        <div class="stats">
-            Total Proxies: <span id="proxyCount">10</span> | Updated: <span id="updateTime">Today</span>
-        </div>
-        
-        <div class="proxy-list" id="proxyList">
-            <!-- Proxies will be loaded here -->
-        </div>
-        
-        <div class="footer">
-            <p>For educational purposes only | Format: IP:PORT</p>
-        </div>
-    </div>
-
-    <script>
-        // SOCKS5 Proxies List
-        const socks5Proxies = [
-            "212.87.213.71:45785",
-            "185.244.36.240:26359",
-            "185.244.36.245:46822",
-            "5.182.209.247:52009",
-            "5.182.209.246:25631",
-            "5.182.209.246:14120",
-            "5.182.209.247:45044",
-            "185.244.36.237:50655",
-            "185.244.36.245:18358",
-            "5.182.209.249:18873"
-        ];
-        
-        // Display proxies on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            const proxyList = document.getElementById('proxyList');
-            const proxyCount = document.getElementById('proxyCount');
-            
-            // Update count
-            proxyCount.textContent = socks5Proxies.length;
-            
-            // Update time
-            const updateTime = document.getElementById('updateTime');
-            const now = new Date();
-            updateTime.textContent = now.toLocaleDateString();
-            
-            // Display all proxies
-            proxyList.innerHTML = socks5Proxies.join('\n');
-        });
-    </script>
+212.87.213.71:45785
+185.244.36.240:26359
+185.244.36.245:46822
+5.182.209.247:52009
+5.182.209.246:25631
+5.182.209.246:14120
+5.182.209.247:45044
+185.244.36.237:50655
+185.244.36.245:18358
+5.182.209.249:18873
 </body>
 </html>
